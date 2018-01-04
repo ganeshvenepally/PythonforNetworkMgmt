@@ -1,0 +1,19 @@
+Sample Configs to create a LB VIP on Citrix Netscaler
+
+### Add new Servers
+add server server_WEB1 10.10.1.11
+add server server_WEB2 10.10.1.12
+add server server_WEB3 10.10.1.13
+
+### Add Servers to ServiceGroup and configure properties
+bind serviceGroup SVG_server_WEB123 server_WEB1 80
+bind serviceGroup SVG_server_WEB123 server_WEB2 80
+bind serviceGroup SVG_server_WEB123 server_WEB3 80
+add serviceGroup SVG_server_WEB123 HTTP -maxClient 0 -maxReq 0 -cip DISABLED -usip NO -useproxyport YES -cltTimeout 180 -svrTimeout 360 -CKA NO -TCPB NO -CMP YES
+
+
+### Bind Service Group to Monitoring Service
+bind serviceGroup SVG_server_WEB123 -monitorName tcp
+
+### Create LB Vserver and Bind Server ServiceGroup
+add lb vserver lb_virtual_server_WEB123 HTTP 192.168.0.105 80 -persistenceType NONE -lbMethod ROUNDROBIN -cltTimeout 180
