@@ -1,0 +1,24 @@
+Value Filldown hostname (\S+)
+#Value CPUTemp (\d+)
+Value intf (\S*)
+Value ip (\S+)
+Value unit (\d+)
+Value VLAN_ID (\d+)
+Value NAME (\w+)
+Value STATUS (\w+)
+
+
+Start 
+  ^user@${hostname}[>#].*
+  ^.*interfaces ${intf}\s+unit ${unit}.*address\s${ip} -> Record
+  #^\s+CPU temperature\s+${CPUTemp} degrees 
+  ^\d+\s+enet\s+CE
+  ^${VLAN_ID}\s+${NAME}\s+${STATUS}\s+ -> Record
+
+#user@Router1# show | display set explicit
+#set interfaces fe-0/0/0 unit 0 family inet address 192.168.1.230/24
+
+
+#\S Matches a non-whitespace character (opposite of \s).
+#\d Matches any decimal digit; equivalent to the set [0-9].
+#+ Applies to the immediately preceding character(s) and indicates to match one or more times.
