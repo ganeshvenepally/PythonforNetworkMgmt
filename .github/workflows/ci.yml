@@ -12,6 +12,6 @@ jobs:
         with:
           python-version: 3.x
       - run: pip install mkdocs-material 
-      - run: cp *.py docs/
+      - run: cp netmiko4.py docs/
       - run: mkdocs gh-deploy --force
       
