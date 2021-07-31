@@ -1,9 +1,8 @@
-name: ci 
+name: make_docs 
 on:
   push:
     branches: 
       - master
-      - main
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -13,4 +12,6 @@ jobs:
         with:
           python-version: 3.x
       - run: pip install mkdocs-material 
+      - run: cp * docs/
       - run: mkdocs gh-deploy --force
+      
